@@ -11,8 +11,12 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthService {
 	private final UserRepository userRepository;
+	private final ModelMapper modelMapper;
 	
-	public UserModel getMe() {
-		return userRepository.findById(1).get();
+	public UserDto getMe() {
+		UserModel user = userRepository.findById(1).get();
+		return modelMapper.map(user, UserDto.class);
+	}
+	
 	}
 }

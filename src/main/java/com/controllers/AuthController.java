@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.models.UserModel;
+import com.dto.UserDto;
 import com.services.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class AuthController {
 	private final AuthService authService ;
 	
 	@GetMapping("/me")
-	public UserModel getMe() {
+	public UserDto getMe() {
 		return authService.getMe();		
 	}
 	
