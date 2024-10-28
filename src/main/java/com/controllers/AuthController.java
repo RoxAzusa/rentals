@@ -40,8 +40,13 @@ public class AuthController {
 	}
 	
 	@PostMapping("/register")
-	public String register(@RequestBody UserModel user) {
-		System.out.println(user);
-		return "";
+	public  ResponseEntity<?> register(@RequestBody UserDto user) {
+		String token = authService.register(user);
+		
+		if (token == null) {
+			return ResponseEntity.status(401).body("Unauthorized");
+		}
+		
+		return ResponseEntity.ok(new AuthSuccess(token));	
 	}
 }
