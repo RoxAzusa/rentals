@@ -3,6 +3,7 @@ package com.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,12 @@ public class RentalController {
 	private final RentalService rentalService;
 	
 	@GetMapping("/rentals")
-	public Map<String, List<RentalDto>> getRentals() {
-		return rentalService.getRentals();
+	public ResponseEntity<?> getRentals() {
+		Map<String, List<RentalDto>> result = rentalService.getRentals();
+		if (result.isEmpty()) {
+			return ResponseEntity.status(401).body("Unauthorized");
+		}
+		
+		return ResponseEntity.ok(result);
 	}
 }
