@@ -3,6 +3,7 @@ package com.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -28,5 +29,10 @@ public class RentalService {
 		Map<String, List<RentalDto>> response = new HashMap<>();
 		response.put("rentals", rentalsDto);
 		return response;
+	}
+	
+	public RentalDto getRentalById(int idRental) {
+		Optional<RentalModel> rental = rentalRepository.findById(idRental);
+		return modelMapper.map(rental, RentalDto.class);
 	}
 }
