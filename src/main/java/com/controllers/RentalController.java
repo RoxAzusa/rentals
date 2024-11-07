@@ -35,8 +35,8 @@ public class RentalController {
 	@GetMapping("/rentals/{idRental}")
 	public ResponseEntity<?> getRentalById(@PathVariable int idRental) {
 		RentalDto result = rentalService.getRentalById(idRental);
-		if(result == null) {
-			return ResponseEntity.status(401).body("Unauthorized");
+		if (result == null) {
+			return ResponseEntity.status(401).body(null);
 		}
 		
 		return ResponseEntity.ok(result);

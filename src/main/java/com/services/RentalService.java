@@ -49,7 +49,7 @@ public class RentalService {
 	
 	public RentalDto getRentalById(int idRental) {
 		Optional<RentalModel> rental = rentalRepository.findById(idRental);
-		return modelMapper.map(rental, RentalDto.class);
+		return modelMapper.map(rental.get(), RentalDto.class);
 	}
 	
 	public RentalDto findByPicture(String picture) {
