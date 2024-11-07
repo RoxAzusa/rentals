@@ -37,6 +37,7 @@ public class AuthService {
 	public String register(UserDto userDto) {
 		UserModel userModel = modelMapper.map(userDto, UserModel.class);	
 		userModel.setCreatedAt(LocalDateTime.now());
+		userModel.setUpdatedAt(LocalDateTime.now());
 		userRepository.save(userModel);
 		
 		String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhdGEiLCJpYXQiOjE1MTYyMzkwMjJ9.4iyAH-1x4gDpnY0HySORM_YNlTLk2Ra2iGxU_b33Qbo";
