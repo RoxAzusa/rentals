@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.dto.RentalDisplayDto;
@@ -27,6 +28,9 @@ public class RentalService {
 	private static String chars = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ123456789";
 	private static int charLength = chars.length();
 	
+	@Value("${rentals.image.base-url}")
+	private String imageBaseUrl;
+	
 	public String generateRandomCode(final int size) {
 		StringBuilder pass = new StringBuilder(7);
 		
@@ -43,7 +47,7 @@ public class RentalService {
 		List<RentalDisplayDto> rentalsDto = rentals.stream()
 				.map(rental -> modelMapper.map(rental, RentalDisplayDto.class))
 				.collect(Collectors.toList());
-		rentalsDto.stream().forEach(rental -> rental.setPicture("http://localhost:8080/api/rentals/image/" + rental.getPicture()));
+		rentalsDto.stream().forEach(rental -> rental.setPicture(imageBaseUrl + rental.getPicture()));
 		Map<String, List<RentalDisplayDto>> response = new HashMap<>();
 		response.put("rentals", rentalsDto);
 		return response;
