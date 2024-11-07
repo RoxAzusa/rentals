@@ -1,5 +1,6 @@
 package com.controllers;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dto.RentalDisplayDto;
 import com.dto.RentalDto;
 import com.services.RentalService;
 
@@ -22,9 +24,9 @@ public class RentalController {
 	
 	@GetMapping("/rentals")
 	public ResponseEntity<?> getRentals() {
-		Map<String, List<RentalDto>> result = rentalService.getRentals();
+		Map<String, List<RentalDisplayDto>> result = rentalService.getRentals();
 		if (result.isEmpty()) {
-			return ResponseEntity.status(401).body("Unauthorized");
+			return ResponseEntity.status(401).body(null);
 		}
 		
 		return ResponseEntity.ok(result);
@@ -38,5 +40,9 @@ public class RentalController {
 		}
 		
 		return ResponseEntity.ok(result);
+	}
+	@GetMapping("/rentals/image/{code}")
+	public byte[] getImageByte(@PathVariable String code) throws IOException {
+		return rentalService.findByPicture(code).getPictureData();
 	}
 }

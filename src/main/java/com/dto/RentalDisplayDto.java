@@ -2,18 +2,14 @@ package com.dto;
 
 import java.time.LocalDateTime;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import lombok.Data;
 
 @Data
-public class RentalDto {
-	private int id;
+public class RentalDisplayDto {
 	private String name;
 	private float surface;
 	private float price;
-	private MultipartFile picture;
-	private byte[] pictureData;
+	private String picture;
 	private String description;
 	private int ownerId;
 	private LocalDateTime createdAt;
