@@ -38,9 +38,13 @@ public class AuthService {
 		UserModel userModel = modelMapper.map(userDto, UserModel.class);	
 		userModel.setCreatedAt(LocalDateTime.now());
 		userModel.setUpdatedAt(LocalDateTime.now());
-		userRepository.save(userModel);
+		UserModel response = userRepository.save(userModel);
+
+		if (response != null) {
+			String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhdGEiLCJpYXQiOjE1MTYyMzkwMjJ9.4iyAH-1x4gDpnY0HySORM_YNlTLk2Ra2iGxU_b33Qbo";
+			return token;			
+		}
 		
-		String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlRhdGEiLCJpYXQiOjE1MTYyMzkwMjJ9.4iyAH-1x4gDpnY0HySORM_YNlTLk2Ra2iGxU_b33Qbo";
-		return token;
+		return null;
 	}
 }

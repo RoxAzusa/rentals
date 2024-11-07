@@ -50,7 +50,7 @@ public class AuthController {
 		String token = authService.register(user);
 		
 		if (token == null) {
-			return ResponseEntity.status(401).body("Unauthorized");
+			return ResponseEntity.status(400).body(null);
 		}
 		
 		return ResponseEntity.ok(new AuthSuccess(token));	
