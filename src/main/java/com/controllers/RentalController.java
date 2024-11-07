@@ -57,7 +57,7 @@ public class RentalController {
 	}
 	
 	@PutMapping("/rentals/{idRental}")
-	public ResponseEntity<?> updateRental (@PathVariable int idRental, @RequestBody RentalDto rentalDto) {
+	public ResponseEntity<?> updateRental (@PathVariable int idRental, @ModelAttribute RentalDto rentalDto) {
 		RentalDto result = rentalService.updateRental(idRental, rentalDto);
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);
