@@ -67,6 +67,24 @@ public class RentalService {
 		return modelMapper.map(rentalResult, RentalDto.class);
 	}
 	
+	public RentalDto updateRental(int idRental, RentalDto rentalDto) {
+		RentalModel newRental = modelMapper.map(rentalDto, RentalModel.class);
+		RentalModel updatedRental = rentalRepository.findById(idRental).get();
+		
+		if (updatedRental == null ) {
+			return null;
+		}
+		
+		updatedRental.setName(newRental.getName());
+		updatedRental.setSurface(newRental.getSurface());
+		updatedRental.setPrice(newRental.getPrice());
+		updatedRental.setDescription(newRental.getDescription());
+		updatedRental.setUpdatedAt(LocalDateTime.now());
+		
+		RentalModel result = rentalRepository.save(updatedRental);
+		return modelMapper.map(result, RentalDto.class);
+	}
+	
 	public RentalDto findByPicture(String picture) {
 		Optional<RentalModel> rental = rentalRepository.findByPicture(picture);
 		return modelMapper.map(rental.get(), RentalDto.class);
