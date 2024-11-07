@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +37,7 @@ public class RentalController {
 	
 	@GetMapping("/rentals/{idRental}")
 	public ResponseEntity<?> getRentalById(@PathVariable int idRental) {
-		RentalDto result = rentalService.getRentalById(idRental);
+		RentalDisplayDto result = rentalService.getRentalById(idRental);
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);
 		}

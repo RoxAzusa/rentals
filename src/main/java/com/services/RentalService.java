@@ -53,9 +53,11 @@ public class RentalService {
 		return response;
 	}
 	
-	public RentalDto getRentalById(int idRental) {
+	public RentalDisplayDto getRentalById(int idRental) {
 		Optional<RentalModel> rental = rentalRepository.findById(idRental);
-		return modelMapper.map(rental.get(), RentalDto.class);
+		RentalDisplayDto rentalDto = modelMapper.map(rental.get(), RentalDisplayDto.class);
+		rentalDto.setPicture(imageBaseUrl + rentalDto.getPicture());
+		return rentalDto;
 	}
 	
 	public RentalDto createRental(RentalDto rentalDto) throws IOException {
