@@ -6,7 +6,9 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,6 +43,17 @@ public class RentalController {
 		
 		return ResponseEntity.ok(result);
 	}
+	
+	@PostMapping(value = "/rentals")
+	public ResponseEntity<?> createRental (@ModelAttribute RentalDto rentalDto) throws IOException {
+		RentalDto result = rentalService.createRental(rentalDto);
+		if (result == null) {
+			return ResponseEntity.status(401).body(null);
+		}
+		
+		return ResponseEntity.ok("Rental created !");
+	}
+	
 	@GetMapping("/rentals/image/{code}")
 	public byte[] getImageByte(@PathVariable String code) throws IOException {
 		return rentalService.findByPicture(code).getPictureData();

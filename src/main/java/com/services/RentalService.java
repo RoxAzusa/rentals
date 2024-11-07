@@ -1,5 +1,7 @@
 package com.services;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,19 @@ public class RentalService {
 	public RentalDto getRentalById(int idRental) {
 		Optional<RentalModel> rental = rentalRepository.findById(idRental);
 		return modelMapper.map(rental.get(), RentalDto.class);
+	}
+	
+	public RentalDto createRental(RentalDto rentalDto) throws IOException {
+		RentalModel rentalModel = modelMapper.map(rentalDto, RentalModel.class);
+		rentalModel.setPictureData(rentalDto.getPicture().getBytes());
+		rentalModel.setPicture(generateRandomCode(10));
+		rentalModel.setCreatedAt(LocalDateTime.now());
+		rentalModel.setUpdatedAt(LocalDateTime.now());
+		
+		rentalModel.setOwnerId(1);
+				
+		RentalModel rentalResult = rentalRepository.save(rentalModel);
+		return modelMapper.map(rentalResult, RentalDto.class);
 	}
 	
 	public RentalDto findByPicture(String picture) {
