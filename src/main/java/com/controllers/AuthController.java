@@ -21,8 +21,14 @@ public class AuthController {
 	private final AuthService authService ;
 	
 	@GetMapping("/me")
-	public UserDto getMe() {
-		return authService.getMe();		
+	public ResponseEntity<?> getMe() {
+		UserDto result = authService.getMe();
+		
+		if (result == null) {
+			return ResponseEntity.status(401).body(null);
+		}
+		
+		return ResponseEntity.ok(result);
 	}
 	
 	@PostMapping("/login")
