@@ -15,7 +15,7 @@ public class RentalDto {
 	private MultipartFile picture;
 	private byte[] pictureData;
 	private String description;
-	private int ownerId;
+	private int owner_id;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 }

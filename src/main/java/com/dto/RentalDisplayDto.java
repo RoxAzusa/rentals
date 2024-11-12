@@ -6,12 +6,13 @@ import lombok.Data;
 
 @Data
 public class RentalDisplayDto {
+	private int id;
 	private String name;
 	private float surface;
 	private float price;
 	private String picture;
 	private String description;
-	private int ownerId;
+	private int owner_id;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 }

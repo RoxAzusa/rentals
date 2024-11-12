@@ -41,7 +41,7 @@ public class RentalModel {
 	private String description;
 	
 	@Column(name = "owner_id")
-	private int ownerId;
+	private int owner_id;
 	
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;

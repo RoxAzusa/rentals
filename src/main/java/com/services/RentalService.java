@@ -67,7 +67,7 @@ public class RentalService {
 		rentalModel.setCreatedAt(LocalDateTime.now());
 		rentalModel.setUpdatedAt(LocalDateTime.now());
 		
-		rentalModel.setOwnerId(1);
+		rentalModel.setOwner_id(1);
 				
 		RentalModel rentalResult = rentalRepository.save(rentalModel);
 		return modelMapper.map(rentalResult, RentalDto.class);
