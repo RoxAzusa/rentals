@@ -52,7 +52,7 @@ public class RentalController {
 			return ResponseEntity.status(401).body(null);
 		}
 		
-		return ResponseEntity.ok("Rental created !");
+		return ResponseEntity.ok("{\"message\": \"Rental created !\"}");
 	}
 	
 	@PutMapping("/rentals/{idRental}")
