@@ -18,9 +18,9 @@ public class AuthService {
 	private final UserRepository userRepository;
 	private final ModelMapper modelMapper;
 	
-	public UserDto getMe() {
+	public UserDtoWithoutPassword getMe() {
 		UserModel user = userRepository.findById(1).get();
-		return modelMapper.map(user, UserDto.class);
+		return modelMapper.map(user, UserDtoWithoutPassword.class);
 	}
 	
 	public String login(String email, String password) {
