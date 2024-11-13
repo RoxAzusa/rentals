@@ -20,10 +20,10 @@ public class MessageModel {
 	private int id;
 	
 	@Column(name = "rental_id")
-	private int rentalId;
+	private int rental_id;
 	
 	@Column(name = "user_id")
-	private int userId;
+	private int user_id;
 	
 	@Column(name = "message")
 	private String message;
