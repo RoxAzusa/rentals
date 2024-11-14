@@ -8,4 +8,5 @@ import com.models.UserModel;
 
 public interface UserRepository extends JpaRepository<UserModel, Integer> {
 	Optional<UserModel> findUserByEmailAndPassword(String email, String password);
+	Optional<UserModel> findByName(String name);
 }

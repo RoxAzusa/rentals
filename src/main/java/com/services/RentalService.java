@@ -43,13 +43,13 @@ public class RentalService {
 	}
 	
 	public Map<String, List<RentalDisplayDto>> getRentals() {
-		List<RentalModel> rentals = rentalRepository.findAll();
+		List<RentalModel> rentals = rentalRepository.findAll();		
 		List<RentalDisplayDto> rentalsDto = rentals.stream()
 				.map(rental -> modelMapper.map(rental, RentalDisplayDto.class))
 				.collect(Collectors.toList());
-		rentalsDto.stream().forEach(rental -> rental.setPicture(imageBaseUrl + rental.getPicture()));
+		rentalsDto.stream().forEach(rental -> rental.setPicture(imageBaseUrl + rental.getPicture()));		
 		Map<String, List<RentalDisplayDto>> response = new HashMap<>();
-		response.put("rentals", rentalsDto);
+		response.put("rentals", rentalsDto);		
 		return response;
 	}
 	

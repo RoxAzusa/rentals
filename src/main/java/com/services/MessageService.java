@@ -19,10 +19,12 @@ public class MessageService {
 	
 	public MessageDto addMessage(MessageDto messageDto) {
 		MessageModel messageModel = modelMapper.map(messageDto, MessageModel.class);
+		
 		messageModel.setCreatedAt(LocalDateTime.now());
 		messageModel.setUpdatedAt(LocalDateTime.now());
 		
 		MessageModel messageResult = messageRepository.save(messageModel);
+		
 		return modelMapper.map(messageResult, MessageDto.class);
 	}
 }
