@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dto.AuthSuccess;
 import com.dto.LoginRequestDto;
 import com.dto.UserDto;
 import com.dto.UserDtoWithoutPassword;
+import com.dto.apiResponse.AuthSuccess;
+import com.dto.apiResponse.MessageResponseDto;
 import com.services.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -59,7 +60,7 @@ public class AuthController {
 	@RequestBody LoginRequestDto loginRequest) {
 		
 		if (token == null) {
-			return ResponseEntity.status(401).body("{\"message\": \"error\"}");
+			return ResponseEntity.status(401).body(new MessageResponseDto("error"));
 		}
 		
 		return ResponseEntity.ok(new AuthSuccess(token));

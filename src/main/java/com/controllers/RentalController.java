@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dto.RentalDisplayDto;
 import com.dto.RentalDto;
+import com.dto.apiResponse.MessageResponseDto;
+import com.dto.apiResponse.RentalResponseDto;
 import com.services.RentalService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,7 +80,7 @@ public class RentalController {
 			return ResponseEntity.status(401).body(null);
 		}
 		
-		return ResponseEntity.ok("{\"message\": \"Rental created !\"}");
+		return ResponseEntity.ok(new MessageResponseDto("Rental created !"));
 	}
 	
 	@Operation(summary = "Update rental")
@@ -98,7 +100,7 @@ public class RentalController {
 			return ResponseEntity.status(401).body(null);
 		}
 		
-		return ResponseEntity.ok("Rental updated !");
+		return ResponseEntity.ok(new MessageResponseDto("Rental updated !"));
 	}
 	
 	@Operation(summary = "Get image bytes")

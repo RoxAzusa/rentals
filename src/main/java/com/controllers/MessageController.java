@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dto.MessageDto;
-import com.dto.SendMessageSuccess;
+import com.dto.apiResponse.MessageResponseDto;
 import com.services.MessageService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,6 +42,6 @@ public class MessageController {
 			return ResponseEntity.status(401).body(null);
 		}
 		
-		return ResponseEntity.ok(new SendMessageSuccess("Message send with success"));
+		return ResponseEntity.ok(new MessageResponseDto("Message send with success"));
 	}
 }
