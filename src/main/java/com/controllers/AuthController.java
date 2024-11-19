@@ -1,6 +1,7 @@
 package com.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,8 +34,9 @@ public class AuthController {
 			  @ApiResponse(responseCode = "200", description = "User found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDtoWithoutPassword.class)) }),
 			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@GetMapping("/me")
-	public ResponseEntity<?> getMe() {
-		UserDtoWithoutPassword result = authService.getMe();
+	public ResponseEntity<?> getMe(JwtAuthenticationToken principal) {
+		int id = Integer.parseInt(principal.getTokenAttributes().get("id").toString());
+		UserDtoWithoutPassword result = authService.getMe(id);
 		
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);
@@ -53,11 +55,8 @@ public class AuthController {
 			content = @Content(mediaType = "application/json",
 			schema = @Schema(implementation = LoginRequestDto.class),
 			examples = @ExampleObject (value = "{ \"email\": \"test@test.com\", \"password\": \"test!31\" }")))
-		String email = loginRequest.getEmail();
-		String password = loginRequest.getPassword();
-		
-		String token = authService.login(email, password);
 	@RequestBody LoginRequestDto loginRequest) {
+		String token = authService.login(loginRequest.getEmail(), loginRequest.getPassword());
 		
 		if (token == null) {
 			return ResponseEntity.status(401).body(new MessageResponseDto("error"));

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,13 +69,14 @@ public class RentalController {
 			  @ApiResponse(responseCode = "200", description = "Rental created", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponseDto.class))}),
 			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@PostMapping(value = "/rentals")
-		RentalDto result = rentalService.createRental(rentalDto);
 	public ResponseEntity<?> createRental (@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			required = true,
 			content = @Content(mediaType = "application/json",
 			schema = @Schema(implementation = RentalDto.class),
 			examples = @ExampleObject (value = "{ \"id\": 1, \"name\": \"dream house\", \"surface\": 24, \"price\": 30, \"picture\": \"https://blog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg\", \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\", \"owner_id\": 1, \"created_at\": \"2012/12/02\", \"updated_at\": \"2014/12/02\" }")))
 	@ModelAttribute RentalDto rentalDto, JwtAuthenticationToken principal) throws IOException {
+		int id = Integer.parseInt(principal.getTokenAttributes().get("id").toString());
+		RentalDto result = rentalService.createRental(rentalDto, id);
 		
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);

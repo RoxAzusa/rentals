@@ -60,14 +60,13 @@ public class RentalService {
 		return rentalDto;
 	}
 	
-	public RentalDto createRental(RentalDto rentalDto) throws IOException {
+	public RentalDto createRental(RentalDto rentalDto, int id) throws IOException {
 		RentalModel rentalModel = modelMapper.map(rentalDto, RentalModel.class);
 		rentalModel.setPictureData(rentalDto.getPicture().getBytes());
 		rentalModel.setPicture(generateRandomCode(10));
 		rentalModel.setCreatedAt(LocalDateTime.now());
-		rentalModel.setUpdatedAt(LocalDateTime.now());
-		
-		rentalModel.setOwner_id(1);
+		rentalModel.setUpdatedAt(LocalDateTime.now());		
+		rentalModel.setOwner_id(id);
 				
 		RentalModel rentalResult = rentalRepository.save(rentalModel);
 		return modelMapper.map(rentalResult, RentalDto.class);
