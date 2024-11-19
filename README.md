@@ -43,7 +43,10 @@ cd rentals
      ```sql
      CREATE DATABASE rentals;
      ```
-3. Assurez-vous que le service MySQL est démarré et que les identifiants configurés dans `application.properties` sont corrects.
+
+3. Initalisez la base de données avec le `script.sql` fournit dans le dossier **ressources\sql**
+
+4. Assurez-vous que le service MySQL est démarré et que les identifiants configurés dans `application.properties` sont corrects.
 
 ### Étape 3 : Construire et exécuter le projet
 Installez les dépendances Maven et lancez l'application :  
