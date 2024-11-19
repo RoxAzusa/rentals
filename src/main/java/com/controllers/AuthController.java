@@ -28,12 +28,9 @@ public class AuthController {
 	private final AuthService authService ;
 	
 	@Operation(summary = "Get actual user")
-	@ApiResponses(value = { 
-			  @ApiResponse(responseCode = "200", description = "User found", 
-			    content = { @Content(mediaType = "application/json", 
-			      schema = @Schema(implementation = UserDtoWithoutPassword.class)) }),
-			  @ApiResponse(responseCode = "401", description = "Unauthorized", 
-			    content = @Content) })
+	@ApiResponses(value = {
+			  @ApiResponse(responseCode = "200", description = "User found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserDtoWithoutPassword.class)) }),
+			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@GetMapping("/me")
 	public ResponseEntity<?> getMe() {
 		UserDtoWithoutPassword result = authService.getMe();
@@ -46,23 +43,20 @@ public class AuthController {
 	}
 	
 	@Operation(summary = "User login with email and password")
-	@ApiResponses(value = { 
-			  @ApiResponse(responseCode = "200", description = "Login success", 
-			    content = { @Content(mediaType = "application/json", 
-			      schema = @Schema(implementation = AuthSuccess.class)) }),
-			  @ApiResponse(responseCode = "401", description = "Unauthorized", 
-			    content = @Content) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Login success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = AuthSuccess.class))}),
+			@ApiResponse(responseCode = "401", description = "Unauthorized", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponseDto.class)) }) })
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			required = true,
 			content = @Content(mediaType = "application/json",
 			schema = @Schema(implementation = LoginRequestDto.class),
 			examples = @ExampleObject (value = "{ \"email\": \"test@test.com\", \"password\": \"test!31\" }")))
-			@RequestBody LoginRequestDto loginRequest) {
 		String email = loginRequest.getEmail();
 		String password = loginRequest.getPassword();
 		
 		String token = authService.login(email, password);
+	@RequestBody LoginRequestDto loginRequest) {
 		
 		if (token == null) {
 			return ResponseEntity.status(401).body("{\"message\": \"error\"}");
@@ -73,11 +67,8 @@ public class AuthController {
 	
 	@Operation(summary = "User registration")
 	@ApiResponses(value = { 
-			  @ApiResponse(responseCode = "200", description = "Register success", 
-			    content = { @Content(mediaType = "application/json", 
-			      schema = @Schema(implementation = AuthSuccess.class)) }),
-			  @ApiResponse(responseCode = "400", description = "Bad Request", 
-			    content = @Content) })
+			@ApiResponse(responseCode = "200", description = "Register success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = AuthSuccess.class)) }),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content) })
 	@PostMapping("/register")
 	public  ResponseEntity<?> register(@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			required = true,

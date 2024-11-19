@@ -17,6 +17,12 @@ import com.dto.RentalDisplayDto;
 import com.dto.RentalDto;
 import com.services.RentalService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -25,9 +31,14 @@ import lombok.RequiredArgsConstructor;
 public class RentalController {
 	private final RentalService rentalService;
 	
+	@Operation(summary = "Get rentals")
+	@ApiResponses(value = { 
+			  @ApiResponse(responseCode = "200", description = "Rentals found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RentalResponseDto.class)) }),
+			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@GetMapping("/rentals")
 	public ResponseEntity<?> getRentals() {
 		Map<String, List<RentalDisplayDto>> result = rentalService.getRentals();
+		
 		if (result.isEmpty()) {
 			return ResponseEntity.status(401).body(null);
 		}
@@ -35,9 +46,14 @@ public class RentalController {
 		return ResponseEntity.ok(result);
 	}
 	
+	@Operation(summary = "Get rental by id")
+	@ApiResponses(value = { 
+			  @ApiResponse(responseCode = "200", description = "Rental found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = RentalDisplayDto.class)) }),
+			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@GetMapping("/rentals/{idRental}")
 	public ResponseEntity<?> getRentalById(@PathVariable int idRental) {
 		RentalDisplayDto result = rentalService.getRentalById(idRental);
+		
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);
 		}
@@ -45,9 +61,19 @@ public class RentalController {
 		return ResponseEntity.ok(result);
 	}
 	
+	@Operation(summary = "Create rental")
+	@ApiResponses(value = { 
+			  @ApiResponse(responseCode = "200", description = "Rental created", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponseDto.class))}),
+			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@PostMapping(value = "/rentals")
-	public ResponseEntity<?> createRental (@ModelAttribute RentalDto rentalDto) throws IOException {
 		RentalDto result = rentalService.createRental(rentalDto);
+	public ResponseEntity<?> createRental (@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			required = true,
+			content = @Content(mediaType = "application/json",
+			schema = @Schema(implementation = RentalDto.class),
+			examples = @ExampleObject (value = "{ \"id\": 1, \"name\": \"dream house\", \"surface\": 24, \"price\": 30, \"picture\": \"https://blog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg\", \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\", \"owner_id\": 1, \"created_at\": \"2012/12/02\", \"updated_at\": \"2014/12/02\" }")))
+	@ModelAttribute RentalDto rentalDto, JwtAuthenticationToken principal) throws IOException {
+		
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);
 		}
@@ -55,9 +81,19 @@ public class RentalController {
 		return ResponseEntity.ok("{\"message\": \"Rental created !\"}");
 	}
 	
+	@Operation(summary = "Update rental")
+	@ApiResponses(value = { 
+			  @ApiResponse(responseCode = "200", description = "Rental updated", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponseDto.class))}),
+			  @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content) })
 	@PutMapping("/rentals/{idRental}")
-	public ResponseEntity<?> updateRental (@PathVariable int idRental, @ModelAttribute RentalDto rentalDto) {
+	public ResponseEntity<?> updateRental (@io.swagger.v3.oas.annotations.parameters.RequestBody(
+			required = true,
+			content = @Content(mediaType = "application/json",
+			schema = @Schema(implementation = RentalDto.class),
+			examples = @ExampleObject (value = "{ \"id\": 1, \"name\": \"dream house\", \"surface\": 24, \"price\": 30, \"picture\": \"https://blog.technavio.org/wp-content/uploads/2018/12/Online-House-Rental-Sites.jpg\", \"description\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\", \"owner_id\": 1, \"created_at\": \"2012/12/02\", \"updated_at\": \"2014/12/02\" }")))
+	@PathVariable int idRental, @ModelAttribute RentalDto rentalDto) {
 		RentalDto result = rentalService.updateRental(idRental, rentalDto);
+		
 		if (result == null) {
 			return ResponseEntity.status(401).body(null);
 		}
@@ -65,6 +101,10 @@ public class RentalController {
 		return ResponseEntity.ok("Rental updated !");
 	}
 	
+	@Operation(summary = "Get image bytes")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Image found", content = @Content(mediaType = "image/jpeg")),
+		    @ApiResponse(responseCode = "404", description = "Image not found", content = @Content) })
 	@GetMapping("/rentals/image/{code}")
 	public byte[] getImageByte(@PathVariable String code) throws IOException {
 		return rentalService.findByPicture(code).getPictureData();

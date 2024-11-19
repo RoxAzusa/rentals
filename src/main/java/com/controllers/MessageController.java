@@ -25,19 +25,17 @@ public class MessageController {
 	private final MessageService messageService;
 	
 	@Operation(summary = "Create message")
-	@ApiResponses(value = { 
-			  @ApiResponse(responseCode = "200", description = "Message created with success", 
-			    content = { @Content(mediaType = "application/json", 
-			      schema = @Schema(implementation = SendMessageSuccess.class)) }),
-			  @ApiResponse(responseCode = "401", description = "Unauthorized", 
-			    content = @Content) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Message created with success", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = MessageResponseDto.class)) }),
+			@ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content),
+			@ApiResponse(responseCode = "400", description = "Bad request", content = @Content) })
 	@PostMapping("/messages")
 	public ResponseEntity<?> addMessage(@io.swagger.v3.oas.annotations.parameters.RequestBody(
 			required = true,
 			content = @Content(mediaType = "application/json",
 			schema = @Schema(implementation = MessageDto.class),
 			examples = @ExampleObject (value = "{ \"message\": \"mon message\", \"user_id\": \"1\", \"rental_id\": \"1\" }")))
-			@RequestBody MessageDto messageDto) {
+	@RequestBody MessageDto messageDto) {
 		MessageDto result = messageService.addMessage(messageDto);
 		
 		if (result == null) {
