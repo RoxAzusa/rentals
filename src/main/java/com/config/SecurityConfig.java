@@ -2,6 +2,7 @@ package com.config;
 
 import javax.crypto.spec.SecretKeySpec;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +31,9 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-	private String jwtKey = "IshRk5YrLraSJp4+2dNZIEVf6Ue6Fp0yZzLviHno+jQ=";
+	@Value("${security-config.jwt-key}")
+	private String jwtKey;
+	
 	private final UserAccountService userAccountService;
 	
 	@Bean
