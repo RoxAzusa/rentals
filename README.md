@@ -11,6 +11,12 @@ Rentals est une application qui simplifie la communication entre locataires et p
 
 ---
 
+## Frontend de l'application
+
+Le frontend préalablement fourni, développé avec **Angular**, est disponible dans un dépôt séparé. Vous pouvez y accéder via ce lien : [**RoxAzusa/ Developpez-le-back-end-en-utilisant-Java-et-Spring**](https://github.com/RoxAzusa/Developpez-le-back-end-en-utilisant-Java-et-Spring.git)
+
+---
+
 ## Prérequis
 
 Avant de commencer, assurez-vous d'avoir installé les outils suivants :  
